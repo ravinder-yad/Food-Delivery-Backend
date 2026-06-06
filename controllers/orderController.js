@@ -19,8 +19,13 @@ export const createOrder = async (req, res, next) => {
     const orderData = { ...req.body };
 
     // 1. Resolve User
-    if (!orderData.user || !mongoose.Types.ObjectId.isValid(orderData.user)) {
-      let userObj = await User.findOne();
+    let userObj;
+    if (orderData.user && mongoose.Types.ObjectId.isValid(orderData.user)) {
+      userObj = await User.findById(orderData.user);
+    }
+    
+    if (!userObj) {
+      userObj = await User.findOne();
       if (!userObj) {
         userObj = await User.create({
           name: 'Jane Doe',
@@ -69,14 +74,32 @@ export const createOrder = async (req, res, next) => {
     // 4. Generate OTP
     orderData.otp = Math.floor(1000 + Math.random() * 9000).toString();
 
-    // Set order paymentStatus based on paymentMethod
-    orderData.paymentStatus = orderData.paymentStatus || (orderData.paymentMethod === 'Online' ? 'Completed' : 'Pending');
+    // 5. Handle Wallet Payment Deductions
+    if (orderData.paymentMethod === 'Wallet') {
+      const grandTotal = parseFloat(orderData.totalAmount);
+      if (isNaN(grandTotal) || grandTotal <= 0) {
+        return res.status(400).json({ message: 'Invalid order amount' });
+      }
+      if ((userObj.walletBalance || 0) < grandTotal) {
+        return res.status(400).json({ message: 'Insufficient wallet balance' });
+      }
+      userObj.walletBalance = (userObj.walletBalance || 0) - grandTotal;
+      userObj.walletTransactions.push({
+        amount: grandTotal,
+        type: 'Expense',
+        description: `Order payment`
+      });
+      await userObj.save();
+      orderData.paymentStatus = 'Completed';
+    } else {
+      orderData.paymentStatus = orderData.paymentStatus || (orderData.paymentMethod === 'Online' ? 'Completed' : 'Pending');
+    }
 
     const order = await Order.create(orderData);
 
     // Create associated Payment record in DB
-    const transactionId = order.paymentMethod === 'Online' 
-      ? (orderData.transactionId || 'pay_' + Math.random().toString(36).substring(2, 11).toUpperCase())
+    const transactionId = (order.paymentMethod === 'Online' || order.paymentMethod === 'Wallet')
+      ? (orderData.transactionId || (order.paymentMethod === 'Wallet' ? 'wlt_' : 'pay_') + Math.random().toString(36).substring(2, 11).toUpperCase())
       : null;
 
     await Payment.create({

@@ -9,6 +9,13 @@ const userSchema = new mongoose.Schema({
   profilePicture: { type: String },
   addresses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Address' }],
   isVerified: { type: Boolean, default: false },
+  walletBalance: { type: Number, default: 0 },
+  walletTransactions: [{
+    amount: { type: Number, required: true },
+    type: { type: String, enum: ['Deposit', 'Expense', 'Refund'], required: true },
+    description: { type: String },
+    createdAt: { type: Date, default: Date.now }
+  }]
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
