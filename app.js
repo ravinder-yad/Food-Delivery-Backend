@@ -12,6 +12,17 @@ import settingsRoutes from './routes/settingsRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
+// Pre-load Mongoose Models to prevent MissingSchemaErrors during population
+import './models/User.js';
+import './models/Restaurant.js';
+import './models/Category.js';
+import './models/Food.js';
+import './models/Address.js';
+import './models/Order.js';
+import './models/Banner.js';
+import './models/Offer.js';
+import './models/Settings.js';
+
 
 const app = express();
 
@@ -65,6 +76,7 @@ app.use((req, res, next) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
+  console.error('SERVER_ERROR:', err);
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode).json({
     message: err.message,
