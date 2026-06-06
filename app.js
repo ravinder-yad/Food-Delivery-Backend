@@ -26,6 +26,12 @@ import './models/Settings.js';
 
 const app = express();
 
+// CORS Configuration (Must be registered first)
+app.use(cors({
+  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
+  credentials: true,
+}));
+
 // Security Middlewares
 app.use(helmet());
 app.use(xss());
@@ -44,12 +50,6 @@ app.use('/api', limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-// CORS Configuration
-app.use(cors({
-  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
-  credentials: true,
-}));
 
 // Serves Static Files for uploads
 app.use('/uploads', express.static('uploads'));
