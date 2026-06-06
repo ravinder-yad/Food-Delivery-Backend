@@ -66,6 +66,7 @@ const seedDB = async () => {
         restaurant: defaultRestaurant._id,
         name: 'Margherita Pizza',
         price: 299,
+        discount: 10,
         description: 'Classic mozzarella, basil, and tomato sauce.',
         isVeg: true,
         image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=300',
@@ -75,6 +76,7 @@ const seedDB = async () => {
         restaurant: defaultRestaurant._id,
         name: 'Pepperoni Pizza',
         price: 399,
+        discount: 15,
         description: 'Double pepperoni and mozzarella cheese.',
         isVeg: false,
         image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&q=80&w=300',
@@ -82,8 +84,19 @@ const seedDB = async () => {
       },
       {
         restaurant: defaultRestaurant._id,
+        name: 'Paneer Tikka Pizza',
+        price: 320,
+        discount: 12,
+        description: 'Tandoori paneer cubes, capsicum, onions, and spicy sauce.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Pizza')
+      },
+      {
+        restaurant: defaultRestaurant._id,
         name: 'Smashed Cheese Burger',
         price: 199,
+        discount: 20,
         description: 'Angus beef patty, cheddar, craft sauce.',
         isVeg: false,
         image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=300',
@@ -91,12 +104,93 @@ const seedDB = async () => {
       },
       {
         restaurant: defaultRestaurant._id,
+        name: 'Double Patty Veg Burger',
+        price: 149,
+        discount: 10,
+        description: 'Two crispy potato patties, cheese slice, lettuce, and mayo.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Burger')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Spicy Chicken Crispy Burger',
+        price: 179,
+        discount: 5,
+        description: 'Batter-fried chicken breast, spicy sauce, pickles, and lettuce.',
+        isVeg: false,
+        image: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Burger')
+      },
+      {
+        restaurant: defaultRestaurant._id,
         name: 'Hyderabadi Chicken Biryani',
         price: 349,
+        discount: 0,
         description: 'Fragrant basmati rice layered with spiced marinated chicken.',
         isVeg: false,
         image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=300',
         category: getCatId('Biryani')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Veg Dum Biryani',
+        price: 249,
+        discount: 15,
+        description: 'Basmati rice cooked with fresh seasonal vegetables and special spices.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Biryani')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Mutton Dum Biryani',
+        price: 449,
+        discount: 5,
+        description: 'Slow-cooked mutton pieces in rich traditional spices and basmati rice.',
+        isVeg: false,
+        image: 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Biryani')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Wok Tossed Hakka Noodles',
+        price: 189,
+        discount: 8,
+        description: 'Stir-fried noodles loaded with crunchy vegetables and soy sauce.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Chinese')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Chicken Steamed Momos',
+        price: 159,
+        discount: 12,
+        description: 'Juicy chicken mince stuffed inside soft wrapper, served with spicy red chutney.',
+        isVeg: false,
+        image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Chinese')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Chocolate Lava Cake',
+        price: 99,
+        discount: 20,
+        description: 'Decadent warm chocolate cake with a molten chocolate center.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Desserts')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Red Velvet Pastry',
+        price: 119,
+        discount: 15,
+        description: 'Rich layers of cocoa pastry with cream cheese frosting.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1586788680434-30d324b2d46f?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Desserts')
       }
     ];
 
