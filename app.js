@@ -11,6 +11,8 @@ import offerRoutes from './routes/offerRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
+import partnerRoutes from './routes/partnerRoutes.js';
 
 // Pre-load Mongoose Models to prevent MissingSchemaErrors during population
 import './models/User.js';
@@ -22,6 +24,8 @@ import './models/Order.js';
 import './models/Banner.js';
 import './models/Offer.js';
 import './models/Settings.js';
+import './models/Payment.js';
+import './models/DeliveryPartner.js';
 
 
 const app = express();
@@ -39,7 +43,7 @@ app.use(xss());
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // limit each IP to 100 (prod) or 1000 (dev) requests per windowMs
   message: { message: 'Too many requests from this IP, please try again after 15 minutes' },
   standardHeaders: true,
   legacyHeaders: false,
@@ -68,6 +72,8 @@ app.use('/api/offers', offerRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/partners', partnerRoutes);
 
 // 404 Route handler
 app.use((req, res, next) => {

@@ -3,6 +3,7 @@ import Order from '../models/Order.js';
 import User from '../models/User.js';
 import Restaurant from '../models/Restaurant.js';
 import Address from '../models/Address.js';
+import Payment from '../models/Payment.js';
 
 export const getOrders = async (req, res, next) => {
   try {
@@ -68,7 +69,25 @@ export const createOrder = async (req, res, next) => {
     // 4. Generate OTP
     orderData.otp = Math.floor(1000 + Math.random() * 9000).toString();
 
+    // Set order paymentStatus based on paymentMethod
+    orderData.paymentStatus = orderData.paymentStatus || (orderData.paymentMethod === 'Online' ? 'Completed' : 'Pending');
+
     const order = await Order.create(orderData);
+
+    // Create associated Payment record in DB
+    const transactionId = order.paymentMethod === 'Online' 
+      ? (orderData.transactionId || 'pay_' + Math.random().toString(36).substring(2, 11).toUpperCase())
+      : null;
+
+    await Payment.create({
+      user: order.user,
+      order: order._id,
+      paymentMethod: order.paymentMethod,
+      paymentStatus: order.paymentStatus,
+      amount: order.totalAmount,
+      transactionId: transactionId
+    });
+
     res.status(201).json(order);
   } catch (error) {
     next(error);
@@ -78,9 +97,33 @@ export const createOrder = async (req, res, next) => {
 export const updateOrderStatus = async (req, res, next) => {
   try {
     const { orderStatus } = req.body;
-    const order = await Order.findByIdAndUpdate(req.params.id, { orderStatus }, { new: true });
+    
+    // Fetch order first to check properties
+    let order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ message: 'Order not found' });
-    res.json(order);
+    
+    order.orderStatus = orderStatus;
+    
+    // If order status is set to Delivered, mark payment as Completed (mainly for COD)
+    if (orderStatus === 'Delivered') {
+      order.paymentStatus = 'Completed';
+      
+      // Sync Payment model
+      await Payment.findOneAndUpdate(
+        { order: order._id },
+        { paymentStatus: 'Completed' }
+      );
+    }
+    
+    await order.save();
+    
+    // Populate and return updated order
+    const updatedOrder = await Order.findById(order._id)
+      .populate('user')
+      .populate('restaurant')
+      .populate('deliveryAddress');
+      
+    res.json(updatedOrder);
   } catch (error) {
     next(error);
   }

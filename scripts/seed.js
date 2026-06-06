@@ -43,16 +43,20 @@ const seedDB = async () => {
       description: 'Authentic stone-baked Italian pizzas and fresh pastas.',
       bannerImage: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=600',
       rating: 4.8,
-      cuisine: ['Italian', 'Pizza', 'Pasta']
+      cuisine: ['Italian', 'Pizza', 'North Indian', 'South Indian', 'Desserts']
     });
 
     // Seed Categories
     const categories = [
-      { name: 'Pizza', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=200', description: 'Cheesy stone-baked pizzas' },
-      { name: 'Burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=200', description: 'Gourmet stuffed burgers' },
-      { name: 'Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=200', description: 'Aromatic Dum Biryani' },
-      { name: 'Chinese', image: 'https://images.unsplash.com/photo-1563379971899-660589a0163e?auto=format&fit=crop&q=80&w=200', description: 'Wok tossed noodles and dimsums' },
-      { name: 'Desserts', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=200', description: 'Sweet cakes and ice creams' }
+      { name: 'Pizza', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300', description: 'Cheesy, stone-baked premium pizzas' },
+      { name: 'Burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=300', description: 'Flame-grilled burger patties with gourmet toppings' },
+      { name: 'Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&q=80&w=300', description: 'Traditional slow-cooked dum biryani' },
+      { name: 'Chinese', image: 'https://images.unsplash.com/photo-1563379971899-660589a0163e?auto=format&fit=crop&q=80&w=300', description: 'Wok tossed noodles and dimsums' },
+      { name: 'Desserts', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=300', description: 'Delectable sweets, fresh pastries and ice creams' },
+      { name: 'Beverages', image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=300', description: 'Refreshing milkshakes, iced coffee, and sodas' },
+      { name: 'North Indian', image: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&q=80&w=300', description: 'Rich paneer tikka, butter chicken and hot naans' },
+      { name: 'South Indian', image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&q=80&w=300', description: 'Crispy butter dosas, idli, and vada with sambar' },
+      { name: 'Salads & Healthy', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=300', description: 'Freshly tossed green salads and protein bowls' }
     ];
 
     const createdCategories = await Category.insertMany(categories);
@@ -191,6 +195,66 @@ const seedDB = async () => {
         isVeg: true,
         image: 'https://images.unsplash.com/photo-1586788680434-30d324b2d46f?auto=format&fit=crop&q=80&w=300',
         category: getCatId('Desserts')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Iced Latte Coffee',
+        price: 135,
+        discount: 10,
+        description: 'Rich espresso shot with chilled milk and premium vanilla syrup.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Beverages')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Classic Mango Shake',
+        price: 120,
+        discount: 5,
+        description: 'Creamy cold shake with Alphonso mango pulp and vanilla ice cream scoop.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1571006682887-b9560f7e6515?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Beverages')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Spicy Butter Chicken',
+        price: 360,
+        discount: 10,
+        description: 'Tender chicken pieces cooked in a rich, buttery, creamy spiced tomato sauce.',
+        isVeg: false,
+        image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('North Indian')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Paneer Butter Masala',
+        price: 260,
+        discount: 15,
+        description: 'Soft cottage cheese cubes cooked in a sweet and spicy onion-tomato gravy.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('North Indian')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Crispy Masala Dosa',
+        price: 110,
+        discount: 0,
+        description: 'Thin crepe of fermented rice and lentils, stuffed with spiced mashed potato.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('South Indian')
+      },
+      {
+        restaurant: defaultRestaurant._id,
+        name: 'Avocado Green Salad',
+        price: 199,
+        discount: 10,
+        description: 'Sliced fresh avocados, romaine lettuce, cherry tomatoes, olives, with olive oil drizzle.',
+        isVeg: true,
+        image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=300',
+        category: getCatId('Salads & Healthy')
       }
     ];
 
@@ -212,7 +276,12 @@ const seedDB = async () => {
 
     // Seed Offers
     const offers = [
-      { name: 'New User Discount', discount: '50% OFF', couponCode: 'WELCOME50', status: 'Active' },
+      { name: 'New User Free Meal', discount: '100% OFF', couponCode: 'FREE100', status: 'Active' },
+      { name: 'Super Weekend Feast', discount: '40% OFF', couponCode: 'WEEKEND40', status: 'Active' },
+      { name: 'Midweek Craving Buster', discount: '25% OFF', couponCode: 'MIDWEEK25', status: 'Active' },
+      { name: 'Mega Party Deal', discount: '60% OFF', couponCode: 'PARTY60', status: 'Active' },
+      { name: 'Festival Mega Sale', discount: '80% OFF', couponCode: 'FEST80', status: 'Active' },
+      { name: 'Flat Discount Pass', discount: '10% OFF', couponCode: 'FLAT10', status: 'Active' },
       { name: 'Super Saver Delivery', discount: 'FREE DEL', couponCode: 'FREEDEL', status: 'Active' }
     ];
     await Offer.insertMany(offers);
