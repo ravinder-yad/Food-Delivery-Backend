@@ -4,6 +4,8 @@ const settingsSchema = new mongoose.Schema({
   websiteName: { type: String, required: true, default: 'QuickBite' },
   supportEmail: { type: String, default: 'support@quickbite.com' },
   supportPhone: { type: String, default: '+91 9999999999' },
+  logo: { type: String, default: '' },
+  banner: { type: String, default: '' },
   socialLinks: {
     facebook: { type: String, default: '#' },
     twitter: { type: String, default: '#' },
