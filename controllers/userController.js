@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import mongoose from 'mongoose';
 
 export const getUsers = async (req, res, next) => {
   try {
@@ -46,6 +47,12 @@ export const deleteUser = async (req, res, next) => {
 
 export const getWalletDetails = async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.json({
+        walletBalance: 0,
+        walletTransactions: []
+      });
+    }
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json({
@@ -64,6 +71,10 @@ export const addFundsToWallet = async (req, res, next) => {
     
     if (isNaN(depositAmount) || depositAmount <= 0) {
       return res.status(400).json({ message: 'Invalid deposit amount' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid User ID format for deposit' });
     }
 
     const user = await User.findById(req.params.id);
