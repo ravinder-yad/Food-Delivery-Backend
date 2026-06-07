@@ -25,6 +25,9 @@ export const updateSettings = async (req, res, next) => {
       }
     }
 
+    if (updateData.logoWidth) updateData.logoWidth = Number(updateData.logoWidth);
+    if (updateData.bannerHeight) updateData.bannerHeight = Number(updateData.bannerHeight);
+
     // Process uploaded logo and banner files
     if (req.files) {
       if (req.files.logoFile && req.files.logoFile[0]) {

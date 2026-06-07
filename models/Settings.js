@@ -6,6 +6,9 @@ const settingsSchema = new mongoose.Schema({
   supportPhone: { type: String, default: '+91 9999999999' },
   logo: { type: String, default: '' },
   banner: { type: String, default: '' },
+  logoWidth: { type: Number, default: 100 },
+  logoShape: { type: String, default: 'round' },
+  bannerHeight: { type: Number, default: 150 },
   socialLinks: {
     facebook: { type: String, default: '#' },
     twitter: { type: String, default: '#' },
